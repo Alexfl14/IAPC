@@ -1,0 +1,56 @@
+server:
+  port: 8081
+
+app:
+  rag:
+    force-rebuild: false
+    top-k: 4
+    similarity-threshold: 0.3
+    files-path: classpath:rag/mini-employee-handbook/files/*.md
+    vector-store-path: ./data/vector-store/vectorstore.json
+    chunk:
+      size: 400
+      min-chunk-size: 200
+      min-chunk-to-embed: 50
+      max-num-chunks: 8192
+      keep-separator: true
+    pdf:
+      mode: page
+      path: file:./data/pdfs/*.pdf
+      watch-enabled: true
+      pages-per-document: 1
+      left-alignment: true
+      number-of-top-text-lines-to-delete: 0
+      number-of-bottom-text-lines-to-delete: 0
+
+spring:
+  application:
+    name: demo
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  ai:
+    vectorstore:
+      pgvector:
+        table-name-for-chat-memory: vector_store
+        table-name-for-rag: rag_vector_store
+        initialize-schema: true
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 768
+        max-document-batch-size: 100
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      chat:
+        options:
+          model: gemma3:1b
+      embedding:
+        options:
+          model: nomic-embed-text
+logging:
+  level:
+    root: info
+    com.example.demo: info
+    org.springframework.ai: info

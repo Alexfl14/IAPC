@@ -1,0 +1,23 @@
+### Ordinary chat
+POST http://localhost:8081/api/ai/chat/ask
+Content-Type: text/plain; charset=utf-8
+
+Say hello in one short sentence.
+
+### Friend's ordinary chat endpoint
+POST http://localhost:8081/api/ollama/chat/summarize
+Content-Type: text/plain; charset=utf-8
+
+Summarize what a vector database does.
+
+### Handbook RAG (expected: 20 paid days)
+POST http://localhost:8081/api/employee-handbook/ask
+Content-Type: text/plain; charset=utf-8
+
+How many paid vacation days do full-time employees receive per year?
+
+### PDF RAG (add PDF files to data/pdfs first)
+POST http://localhost:8081/api/documents/ask
+Content-Type: text/plain; charset=utf-8
+
+Summarize the policy in the documents.
